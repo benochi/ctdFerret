@@ -24,6 +24,14 @@ const products = [
     desc: `I'm baby direct trade farm-to-table hell of, YOLO readymade raw denim venmo whatever organic gluten-free kitsch schlitz irony af flexitarian.`,
   },
   {
+    id: 3,
+    name: 'albany sectional2',
+    image:
+      'https://dl.airtable.com/.attachments/05ecddf7ac8d581ecc3f7922415e7907/a4242abc/product-1.jpeg',
+    price: 10.99,
+    desc: `I'm baby direct trade farm-to-table hell of, YOLO readymade raw denim venmo whatever organic gluten-free kitsch schlitz irony af flexitarian.`,
+  },
+  {
     id: 4,
     name: 'leather sofa',
     image:

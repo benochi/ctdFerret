@@ -54,7 +54,7 @@ object.behavior()
 //
 // - Array.prototype.push (does not take a callback)
 //
-// These guys all take a callback as input, and then call the callabck for
+// These guys all take a callback as input, and then call the callback for
 // each item in the array
 //
 // - Array.prototype.filter
@@ -62,13 +62,13 @@ object.behavior()
 //     element becomes a member of the new array. If the return value is false,
 //     the element is filtered (removed).
    const integers = [1, 2, 3, 4, 5];
-   // evenNumbers will be interger % 2 for each integer
+   // evenNumbers will be integer % 2 for each integer
    const evenNumbers = integers.filter((integer) => {
      return integer % 2 === 0
    })
 
 // - Array.prototype.map
-//   - The callback recieves each item of the array. The return value is pushed
+//   - The callback receives each item of the array. The return value is pushed
 //     into a new array
    const numbers = [1, 2, 3];
    const doubles = numbers.map((i) => i * 2);
@@ -81,13 +81,13 @@ object.behavior()
 
 // - Array.prototype.reduce
 //   - A bit tricky
-//   - Can transform an array into an atribrary result
+//   - Can transform an array into an arbitrary result
   const lastNames = ['Smith', 'Toure', 'Hernandez']
-  const initialValue = 0;
+  const initialValue = 1;
   const totalLettersInNames = lastNames.reduce((runningTotal, currentName) => {
     return runningTotal + currentName.length;
   }, initialValue)
-  console.log({totalLettersInNames});
+  console.log({totalLettersInNames}, "Initial value:", initialValue);
 
   // The first argument is always the return value that we're building up.
   // I called it, "runningTotal" before. The default name is "accumulator."

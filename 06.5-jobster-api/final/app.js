@@ -29,6 +29,12 @@ app.use(xss());
 // routes
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/jobs', authenticateUser, jobsRouter);
+app.use(express.static("public"));
+
+app.get("/multiply", (req, res) => {
+  const result = req.query.first * req.query.second;
+  res.json({ result });
+});
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
@@ -39,15 +45,24 @@ app.use(errorHandlerMiddleware);
 
 const port = process.env.PORT || 5000;
 
-const start = async () => {
-  try {
-    await connectDB(process.env.MONGO_URI);
-    app.listen(port, () =>
-      console.log(`Server is listening on port ${port}...`)
-    );
-  } catch (error) {
-    console.log(error);
-  }
-};
+let mongoURL = process.env.MONGO_URI;
+if (process.env.NODE_ENV == "test") {
+  mongoURL = process.env.MONGO_URI_TEST;
+}
 
-start();
+module.exports = app;
+
+if (process.env.NODE_ENV !== 'test') {
+  const start = async () => {
+    try {
+      await connectDB(mongoURL);
+      app.listen(port, () =>
+        console.log(`Server is listening on port ${port}...`)
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  start();
+}

@@ -1,21 +1,46 @@
 const express = require('express')
 const app = express();
-const { products } = require("./data.js");
+const { products, people } = require("./data.js");
+const cookieParser = require('cookie-parser');
+const peopleRouter = require('./routes/people');
+const authRouter = require('./routes/auth.js');
 //added for extra demo
 const path = require('path');
+
+//! Week4 Middleware
+const logger = (req, res, next) => {
+  console.log(`${req.method} ${req.url} - ${new Date().toISOString()}`);
+  next();
+};
+
+
+
+//!middleware Week 4, parsing body and cookies, logger.
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(cookieParser());
+app.use(logger);
 
 //added for extra demo
 //http://localhost:5007/cats
 //http://localhost:5007/cats.html
+
 app.get('/cats', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'cats.html'));
 });
-//lesson material
-app.use(express.static("./public"));
+//lesson material http://localhost:5007/
+app.use(express.static("./methods-public"));
+
+//! WEEK 4
+//http://localhost:5007/api/v1/people
+app.use("/api/v1/people", peopleRouter);
+app.use("/auth", authRouter);
+
 //http://localhost:5007/api/v1/test
 app.get("/api/v1/test", (req, res) => {
   res.json({ message: "This is a working GET response!"})
 })
+
 //http://localhost:5007/api/v1/products
 app.get("/api/v1/products", (req, res)=>{
   res.json(products);
@@ -28,7 +53,6 @@ app.get("/api/v1/products/:productID", (req, res)=> {
   if (!product) {
       return res.status(404).json({ message: "Product not found" });
   }
-
   res.json(product);
 });
 //http://localhost:5007/api/v1/query?search=alb&limit=2
@@ -73,3 +97,4 @@ const PORT = 5007
 app.listen(PORT, ()=>{
   console.log(`Server is listening on port ${PORT}`);
 })
+

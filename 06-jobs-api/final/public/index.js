@@ -1,3 +1,9 @@
+import { showLogin, handleLogin } from "./login.js"; 
+import { showLoginRegister, handleLoginRegister } from "./loginRegister.js";
+import { showJobs, handleJobs } from "./jobs.js";
+import { showRegister, handleRegister } from "./register.js";
+import { handleAddEdit } from "./addEdit.js";
+
 let activeDiv = null;
 export const setDiv = (newDiv) => {
   if (newDiv != activeDiv) {
@@ -26,11 +32,7 @@ export const setToken = (value) => {
 
 export let message = null;
 
-import { showJobs, handleJobs } from "./jobs.js";
-import { showLoginRegister, handleLoginRegister } from "./loginRegister.js";
-import { handleLogin } from "./login.js";
-import { handleAddEdit } from "./addEdit.js";
-import { handleRegister } from "./register.js";
+export { showLogin, showLoginRegister, showJobs, showRegister };
 
 document.addEventListener("DOMContentLoaded", () => {
   token = localStorage.getItem("token");

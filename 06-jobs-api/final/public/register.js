@@ -2,8 +2,6 @@ import {
   inputEnabled,
   setDiv,
   message,
-  token,
-  enableInput,
   setToken,
 } from "./index.js";
 import { showLoginRegister } from "./loginRegister.js";
@@ -24,10 +22,49 @@ export const handleRegister = () => {
   const registerButton = document.getElementById("register-button");
   const registerCancel = document.getElementById("register-cancel");
 
-  registerDiv.addEventListener("click", (e) => {
+  registerDiv.addEventListener("click", async (e) => {
     if (inputEnabled && e.target.nodeName === "BUTTON") {
       if (e.target === registerButton) {
-        showJobs();
+        if (password1.value !== password2.value) {
+          message.textContent = "Passwords do not match!";
+          return;
+        }
+
+        try {
+          // Send the registration request to the backend
+          const response = await fetch('/api/v1/auth/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              name: name.value,
+              email: email1.value,
+              password: password1.value
+            })
+          });
+
+          const data = await response.json();
+
+          if (response.status === 201) {
+            // Store the JWT token
+            setToken(data.token);
+
+            // Clear the input fields
+            name.value = "";
+            email1.value = "";
+            password1.value = "";
+            password2.value = "";
+
+            // Redirect to jobs or show the jobs list
+            showJobs();
+          } else {
+            message.textContent = data.message || "Registration failed!";
+          }
+        } catch (error) {
+          console.error("Error during registration:", error);
+          message.textContent = "Error occurred during registration.";
+        }
       } else if (e.target === registerCancel) {
         showLoginRegister();
       }

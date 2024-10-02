@@ -3,7 +3,7 @@ const { UnauthenticatedError } = require('../errors')
 
 const authenticationMiddleware = async (req, res, next) => {
   const authHeader = req.headers.authorization
-
+  console.log(req.method, req.headers.authorization)
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     throw new UnauthenticatedError('No token provided')
   }
@@ -12,6 +12,7 @@ const authenticationMiddleware = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    console.log('Decoded JWT:', decoded);
     const { id, username } = decoded
     req.user = { id, username }
     next()

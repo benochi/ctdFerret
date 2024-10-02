@@ -1,6 +1,7 @@
 const http = require("http");
 var StringDecoder = require("string_decoder").StringDecoder;
 
+//here is my comment!
 const getBody = (req, callback) => {
   const decode = new StringDecoder("utf-8");
   let body = "";
@@ -58,6 +59,10 @@ const server = http.createServer((req, res) => {
   } else {
     res.end(form());
   }
+});
+
+server.on("request", (req) => {
+  console.log("event received: ", req.method, req.url);
 });
 
 server.listen(3000);

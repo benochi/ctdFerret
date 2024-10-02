@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken')
 const { BadRequestError } = require('../errors')
 
 const login = async (req, res) => {
+  console.log(req.body)
   const { username, password } = req.body
   // mongoose validation
   // Joi
@@ -24,6 +25,9 @@ const login = async (req, res) => {
   const token = jwt.sign({ id, username }, process.env.JWT_SECRET, {
     expiresIn: '30d',
   })
+  console.log("Token encoded: ", token)
+  const decoded = jwt.verify(token, process.env.JWT_SECRET)
+  console.log('Decoded JWT:', decoded);
 
   res.status(200).json({ msg: 'user created', token })
 }
